@@ -14,7 +14,6 @@
 #endif
 
 #include <benchmark/benchmark.h>
-#include <ros/package.h>
 
 using namespace hector_math;
 

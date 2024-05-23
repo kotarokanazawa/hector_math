@@ -6,6 +6,7 @@
 
 #include <array>
 #include <cassert>
+#include <stdexcept>
 #include <type_traits>
 
 namespace hector_math
@@ -17,11 +18,11 @@ namespace hector_math
  * @tparam T The type of the elements stored in this RingBuffer.
  * @tparam Nm The maximum number of elements stored in the RingBuffer at any time.
  */
-template<typename T, size_t N>
+template<typename T, std::size_t N>
 class RingBuffer
 {
 public:
-  static constexpr size_t Size = N;
+  static constexpr std::size_t Size = N;
   using value_type = T;
   using pointer = value_type *;
   using const_pointer = const value_type *;
@@ -40,11 +41,11 @@ public:
   //! @returns true if the container is full, false otherwise. Appending to a full container will overwrite old elements.
   bool full() const { return size_ == Size; }
   //! @returns the number of elements
-  constexpr size_t size() const { return size_; }
+  constexpr std::size_t size() const { return size_; }
   //! @returns the maximum number of elements which is equal to the template parameter TSize.
-  constexpr size_t capacity() const { return Size; }
+  constexpr std::size_t capacity() const { return Size; }
   //! @returns the maximum number of elements which is equal to the template parameter TSize.
-  constexpr size_t max_size() const { return Size; }
+  constexpr std::size_t max_size() const { return Size; }
 
   /*!
    * Adds an element to the end of the RingBuffer.
@@ -123,15 +124,18 @@ public:
     }
   }
 
-  const_reference operator[]( size_t index ) const { return items_[get_normalised_index( index )]; }
+  const_reference operator[]( std::size_t index ) const
+  {
+    return items_[get_normalised_index( index )];
+  }
 
-  reference operator[]( size_t index ) { return items_[get_normalised_index( index )]; }
+  reference operator[]( std::size_t index ) { return items_[get_normalised_index( index )]; }
 
 private:
   // normalises index to be as if head would reside at position 0
-  size_t get_normalised_index( size_t index ) const
+  std::size_t get_normalised_index( std::size_t index ) const
   {
-    const size_t result = get_head_index() + index;
+    const std::size_t result = get_head_index() + index;
     return result < Size ? result : result - Size;
   }
 
@@ -145,17 +149,20 @@ private:
   void removed_element_at_head_adapt_indices() { size_--; }
 
   //! The index of the oldest element
-  size_t get_head_index() const
+  std::size_t get_head_index() const
   {
     return tail_index_ >= size_ ? ( tail_index_ - size_ ) : ( tail_index_ + Size - size_ );
   }
-  size_t get_last_index() const { return tail_index_ == 0 ? ( Size - 1 ) : ( tail_index_ - 1 ); }
+  std::size_t get_last_index() const
+  {
+    return tail_index_ == 0 ? ( Size - 1 ) : ( tail_index_ - 1 );
+  }
   std::array<value_type, Size> items_;
-  size_t size_ = 0;
-  size_t tail_index_ = 0;
+  std::size_t size_ = 0;
+  std::size_t tail_index_ = 0;
 };
 
-template<typename T, size_t N>
+template<typename T, std::size_t N>
 template<typename Iterator>
 struct RingBuffer<T, N>::ring_iterator {
 private:
@@ -170,8 +177,8 @@ public:
   using pointer = typename _traits ::pointer;
 
   ring_iterator( RingBuffer<T, N> *buffer, int offset, int index = 0 ) noexcept
-      : buffer_( buffer ), offset_( offset ), buffer_index_( ( offset + index ) % N ),
-        iterator_index_( index )
+      : buffer_( buffer ), offset_( offset ), iterator_index_( index ),
+        buffer_index_( ( offset + index ) % N )
   {
   }
 
@@ -186,7 +193,7 @@ public:
   }
 
   // NOLINTNEXTLINE(cert-dcl21-cpp) lvalue ref-qualify to prevent (it++)++ mistakes without const.
-  ring_iterator<Iterator> operator++( int ) &noexcept
+  ring_iterator<Iterator> operator++( int ) & noexcept
   {
     auto tmp = *this;
     ++( *this );
@@ -207,7 +214,7 @@ public:
     return *this;
   }
 
-  ring_iterator<Iterator> operator--( int ) &noexcept // NOLINT(cert-dcl21-cpp)
+  ring_iterator<Iterator> operator--( int ) & noexcept // NOLINT(cert-dcl21-cpp)
   {
     auto tmp = *this;
     --( *this );

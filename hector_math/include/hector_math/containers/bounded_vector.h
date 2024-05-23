@@ -5,7 +5,8 @@
 #define HECTOR_MATH_BOUNDED_VECTOR_H
 
 #include <array>
-#include <assert.h>
+#include <cassert>
+#include <stdexcept>
 
 namespace hector_math
 {
@@ -17,7 +18,7 @@ public:
   using iterator = typename std::array<T, MaxSize>::iterator;
   using const_iterator = typename std::array<T, MaxSize>::const_iterator;
 
-  size_t size() const { return size_; }
+  std::size_t size() const { return size_; }
 
   // push and pop
   void push_back( T val )
@@ -92,16 +93,16 @@ public:
   const_iterator end() const { return items_.begin() + size_; }
 
   // operator[]
-  T &operator[]( size_t index ) { return items_[index]; }
+  T &operator[]( std::size_t index ) { return items_[index]; }
 
-  const T &operator[]( size_t index ) const { return items_[index]; }
+  const T &operator[]( std::size_t index ) const { return items_[index]; }
 
   // data
   T *data() { return items_.data(); }
 
   const T *data() const { return items_.data(); }
 
-  void reserve( size_t size )
+  void reserve( std::size_t size )
   {
     assert( size <= MaxSize && "Bounded vector can not reserve more than max size!" );
     (void)size;
@@ -109,7 +110,7 @@ public:
 
 private:
   std::array<T, MaxSize> items_;
-  size_t size_ = 0;
+  std::size_t size_ = 0;
 };
 } // namespace hector_math
 

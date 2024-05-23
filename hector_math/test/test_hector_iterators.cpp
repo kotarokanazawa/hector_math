@@ -9,8 +9,6 @@
 #include "eigen_tests.h"
 #include <fstream>
 #include <gtest/gtest.h>
-#include <ros/package.h>
-
 using namespace hector_math;
 
 std::string jsonVector( const GridMap<Eigen::Index> &map, int offset )
@@ -35,8 +33,7 @@ void writeReportToFile( const GridMap<Eigen::Index> &actual_map,
                         Eigen::Index row_max, Eigen::Index col_min, Eigen::Index col_max,
                         int offset, const std::string &name )
 {
-  std::string package_path = ros::package::getPath( ROS_PACKAGE_NAME );
-  std::string path = package_path + "/test/tmp/" + name;
+  std::string path = name;
   std::ofstream output( path, std::ios_base::out );
   if ( !output.is_open() ) {
     std::cerr << "Couldn't open file to dump report!" << std::endl;

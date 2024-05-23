@@ -6,7 +6,6 @@
 #include "eigen_tests.h"
 #include "hector_math/types.h"
 #include <gtest/gtest.h>
-#include <ros/ros.h>
 
 using namespace hector_math;
 template<typename Scalar>

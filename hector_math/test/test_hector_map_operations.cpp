@@ -3,7 +3,6 @@
 #include <hector_math/map_operations/find_minmax.h>
 
 #include <gtest/gtest.h>
-#include <ros/ros.h>
 
 using namespace hector_math;
 

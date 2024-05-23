@@ -4,7 +4,6 @@
 
 #include <benchmark/benchmark.h>
 #include <random>
-#include <ros/package.h>
 
 using namespace hector_math;
 

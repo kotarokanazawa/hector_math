@@ -122,7 +122,7 @@ void iteratePolygon( const Polygon<T> &polygon, Eigen::Index row_min, Eigen::Ind
   // Sort lines by their y start, to quickly find new active lines as we iterate over y
   std::sort( lines.begin(), lines.end(),
              []( const Line &a, const Line &b ) { return a.start_y < b.start_y; } );
-  size_t active_line_index = 0;
+  std::size_t active_line_index = 0;
   LineContainer active_lines;
   RegionContainer x_region_segments;
 
@@ -150,13 +150,13 @@ void iteratePolygon( const Polygon<T> &polygon, Eigen::Index row_min, Eigen::Ind
     // We obtain from each line the x for the current y and use that information to iterate between
     // each pair of x(k) -> x(k+1) where k = 2 * i and i is a natural integer
     x_region_segments.clear();
-    for ( size_t i = 0; i < active_lines.size(); ++i ) {
+    for ( std::size_t i = 0; i < active_lines.size(); ++i ) {
       Eigen::Index x = std::round( active_lines[i].x );
       x_region_segments.push_back( x );
     }
     std::sort( x_region_segments.begin(), x_region_segments.end() );
 
-    for ( size_t i = 0; i < x_region_segments.size() - 1; i += 2 ) {
+    for ( std::size_t i = 0; i < x_region_segments.size() - 1; i += 2 ) {
       Eigen::Index x_start = std::max<Eigen::Index>( row_min, x_region_segments[i] );
       Eigen::Index x_end = std::min<Eigen::Index>( row_max, x_region_segments[i + 1] );
       for ( Eigen::Index x = x_start; x < x_end; ++x ) { functor( x, y ); }

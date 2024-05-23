@@ -2,7 +2,11 @@ cmake_minimum_required(VERSION 3.5.1)
 project(hector_math_ros VERSION 1.0.0)
 set(CMAKE_CXX_STANDARD 11)
 
-find_package(catkin REQUIRED COMPONENTS hector_math urdf)
+find_package(catkin QUIET COMPONENTS hector_math urdf)
+if (NOT catkin_FOUND)
+  message(STATUS "Could not find catkin, skipping catkin package")
+  return()
+endif ()
 
 catkin_package(
   INCLUDE_DIRS include

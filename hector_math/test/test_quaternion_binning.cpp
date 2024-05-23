@@ -40,8 +40,8 @@ TYPED_TEST( QuaternionBinning, quaternionBinning )
   while ( phi < 2 * M_PI ) {
     theta = M_PI * ( -1 / 2.0 );
     while ( theta < M_PI / 2 ) {
-      Eigen::Quaternion<Scalar> q{ 0, cos( phi ) * sin( theta ), sin( phi ) * sin( theta ),
-                                   cos( theta ) };
+      Eigen::Quaternion<Scalar> q{ 0, std::cos( phi ) * std::sin( theta ), std::sin( phi ) * std::sin( theta ),
+                                   std::cos( theta ) };
       auto index = computeBin<Scalar, fibonacci_sqrt, fibonacci_sqrt,
                               quaternion_binning_modes::SphericalFibonacci>( q );
       auto vec = computeDirectionFromBin<Scalar, fibonacci_sqrt, fibonacci_sqrt,

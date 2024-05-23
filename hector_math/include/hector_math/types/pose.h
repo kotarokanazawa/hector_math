@@ -13,6 +13,8 @@ template<typename Scalar>
 class Pose;
 template<typename Scalar>
 using PoseList = std::vector<Pose<Scalar>, Eigen::aligned_allocator<Pose<Scalar>>>;
+using Posef = Pose<float>;
+using Posed = Pose<double>;
 
 //! Represents the pose of a robot as a combination of orientation quaternion and 3D translation
 //! vector.

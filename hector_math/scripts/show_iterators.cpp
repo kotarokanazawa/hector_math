@@ -31,7 +31,7 @@ void dumpEigenDenseBase( const Eigen::DenseBase<Derived> &dense, const std::stri
   output.close();
 }
 
-int main( int argc, char **argv )
+int main( int, char ** )
 {
   Polygon<Scalar> polygon = createPolygon<Scalar>() / Scalar( 0.05 );
   GridMap<Scalar> map( 20, 20 );

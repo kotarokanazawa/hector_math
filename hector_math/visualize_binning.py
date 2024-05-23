@@ -188,4 +188,4 @@ if __name__ == "__main__":
     ax.view_init(elev=20, azim=270)
     plt.title(names[MODE])
     plt.tight_layout()
-plt.show()
+    plt.show()
