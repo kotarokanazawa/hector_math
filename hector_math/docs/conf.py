@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #
 # Configuration file for the Sphinx documentation builder.
@@ -20,10 +21,11 @@ import os
 from subprocess import call
 
 call("doxygen")
+call(["python3", "scripts/generate_coloring_images.py"])
 # -- Project information -----------------------------------------------------
 
 project = "hector_math"
-copyright = "2019-2021, Stefan Fabian"
+copyright = "2019-2024, Stefan Fabian"
 author = "Stefan Fabian"
 
 # The short X.Y version

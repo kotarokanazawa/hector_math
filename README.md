@@ -7,13 +7,20 @@
 The `hector_math` ROS package provides a set of implementations for common math-related problems encountered in robotic
 applications.
 
-### Robot Model
+The library is written in C++ and currently has python bindings for the coloring module.
+
+## Coloring
+
+Hector Math includes some methods for coloring segments or gradients.
+The colors are picked to maximize contrast and with a focus on accessibility.
+
+## Robot Model
 
 Hector Math includes a set of convenience functions for constructing a robot model, continuously updating its joint
 positions, and computing the center of mass and estimated footprint of the robot.
 More details can be found [here](https://tu-darmstadt-ros-pkg.github.io/hector_math/en/master/pages/Robot.html).
 
-### 2D Map Operations
+## 2D Map Operations
 
 Hector Math also includes a set of tools for performing operations on 2D maps.
 
@@ -24,7 +31,7 @@ Hector Math also includes a set of tools for performing operations on 2D maps.
 
 More details can be found [here](https://tu-darmstadt-ros-pkg.github.io/hector_math/en/master/pages/MapOperations.html).
 
-### Direction Discretization
+## Direction Discretization
 
 The package includes direction discretization tools for quickly converting continuous angles into discrete
 directions.
@@ -33,7 +40,7 @@ It also contains methods to bin quaternions into hashes which can be used to dis
 More details can be found
 [here](https://tu-darmstadt-ros-pkg.github.io/hector_math/en/master/pages/QuaternionBinning.html).
 
-### Containers
+## Containers
 
 * BoundedVector: A vector-like structure but with limited size. For small sizes this structure can be kept on the stack and may have vastly greater performance.
 * QuaternionCache: Uses the included quaternion binning to store orientation-dependent data
@@ -41,7 +48,7 @@ More details can be found
 
 More details can be found [here](https://tu-darmstadt-ros-pkg.github.io/hector_math/en/master/pages/Containers.html).
 
-### Bounding Boxes
+## Bounding Boxes
 
 Functions for computing axis-aligned bounding boxes for various shapes.
 More details can be found [here](https://tu-darmstadt-ros-pkg.github.io/hector_math/en/master/pages/Shapes.html).
@@ -62,7 +69,7 @@ You can find the documentation [here](https://tu-darmstadt-ros-pkg.github.io/hec
 
 Alternatively, you can follow the steps below to build it yourself.
 
-#### Dependencies
+## Dependencies
 
 * Doxygen
 * Sphinx
@@ -73,11 +80,10 @@ Alternatively, you can follow the steps below to build it yourself.
 Install dependencies
 
 ```bash
-sudo apt install doxygen
-pip3 install sphinx sphinx_rtd_theme breathe
+sudo apt install doxygen python3-sphinx python3-breathe python3-sphinx-rtd-theme
 ```
 
-#### Build documentation
+## Build documentation
 
 ```bash
 cd hector_math/hector_math/docs

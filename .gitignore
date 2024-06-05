@@ -9,3 +9,4 @@ test/tmp/
 */docs/xml/
 */docs/html/
 */docs/latex/
+*/docs/**/img/generated_*
