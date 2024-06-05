@@ -4,7 +4,7 @@ Coloring
 
 segmentColor
 ------------
-Returns colors for segementation.
+Returns colors for segmentation.
 These are handpicked colors for good contrast and limited in number.
 The following are currently available. You can get the maximum from `NUM_SEGMENT_COLORS`.
 
