@@ -13,6 +13,7 @@ The library is written in C++ and currently has python bindings for the coloring
 
 Hector Math includes some methods for coloring segments or gradients.
 The colors are picked to maximize contrast and with a focus on accessibility.
+The coloring header has no project dependencies and can be freely copied and used.
 
 ## Robot Model
 
