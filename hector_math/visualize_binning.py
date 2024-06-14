@@ -165,16 +165,12 @@ if __name__ == "__main__":
     bin_fn = (
         compute_bin
         if MODE == LARGEST_DIM
-        else inverse_sf
-        if MODE == SPHERICAL_FIBONACCI
-        else compute_bin_spherical
+        else inverse_sf if MODE == SPHERICAL_FIBONACCI else compute_bin_spherical
     )
     inv_bin_fn = (
         inverse_bin
         if MODE == LARGEST_DIM
-        else forward_sf
-        if MODE == SPHERICAL_FIBONACCI
-        else inverse_bin_spherical
+        else forward_sf if MODE == SPHERICAL_FIBONACCI else inverse_bin_spherical
     )
     bins = set([bin_fn(x, y, z) for x, y, z in input_vectors])
     vectors = (

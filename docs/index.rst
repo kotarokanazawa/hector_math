@@ -13,7 +13,3 @@ Welcome to the hector_math documentation!
    :hidden:
 
    pages/*
-
-
-
-

@@ -74,4 +74,3 @@ Ring Buffer
    :members:
    :private-members:
    :undoc-members:
-

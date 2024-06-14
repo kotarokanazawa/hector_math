@@ -6,7 +6,7 @@ build/
 *.qmlc
 
 test/tmp/
-*/docs/xml/
-*/docs/html/
-*/docs/latex/
-*/docs/**/img/generated_*
+docs/xml/
+docs/html/
+docs/latex/
+docs/**/img/generated_*

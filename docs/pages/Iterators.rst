@@ -47,23 +47,20 @@ in how the minimum and maximum values are specified:
 
 Iterate Circle
 --------------
-.. doxygenfunction:: hector_math::iterateCircle( const Vector2<Scalar> &center, Scalar radius, Eigen::Index row_min,Eigen::Index row_max, Eigen::Index col_min, Eigen::Index col_max,Functor functor )
-.. doxygenfunction:: hector_math::iterateCircle( const Vector2<Scalar> &center, Scalar radius, Eigen::Index rows, Eigen::Index cols, Functor functor )
-.. doxygenfunction:: hector_math::iterateCircle( const Vector2<Scalar> &center, Scalar radius, Functor functor )
+.. doxygenfunction:: hector_math::iterateCircle( const Vector2<T> &center, double radius, Eigen::Index row_min, Eigen::Index row_max, Eigen::Index col_min, Eigen::Index col_max, Functor functor )
+.. doxygenfunction:: hector_math::iterateCircle( const Vector2<T> &center, double radius, Eigen::Index rows, Eigen::Index cols, Functor functor )
+.. doxygenfunction:: hector_math::iterateCircle( const Vector2<T> &center, double radius, Functor functor )
 
 
 Iterate Rectangle
 -----------------
-.. doxygenfunction:: hector_math::iterateRectangle( const Vector2<Scalar> &a, const Vector2<Scalar> &b, const Vector2<Scalar> &c,Eigen::Index row_min, Eigen::Index row_max, Eigen::Index col_min,Eigen::Index col_max, Functor functor )
-.. doxygenfunction:: hector_math::iterateRectangle( const Vector2<Scalar> &a, const Vector2<Scalar> &b, const Vector2<Scalar> &c,Eigen::Index rows, Eigen::Index cols, Functor functor )
-.. doxygenfunction:: hector_math::iterateRectangle( const Vector2<Scalar> &a, const Vector2<Scalar> &b, const Vector2<Scalar> &c, Functor functor )
+.. doxygenfunction:: hector_math::iterateRectangle( const Vector2<T> &a, const Vector2<T> &b, const Vector2<T> &c,Eigen::Index row_min, Eigen::Index row_max, Eigen::Index col_min,Eigen::Index col_max, Functor functor )
+.. doxygenfunction:: hector_math::iterateRectangle( const Vector2<T> &a, const Vector2<T> &b, const Vector2<T> &c,Eigen::Index rows, Eigen::Index cols, Functor functor )
+.. doxygenfunction:: hector_math::iterateRectangle( const Vector2<T> &a, const Vector2<T> &b, const Vector2<T> &c, Functor functor )
 
 
 Iterate Polygon
 ---------------
-.. doxygenfunction:: hector_math::iteratePolygon( const Polygon<Scalar> &polygon, Eigen::Index row_min, Eigen::Index row_max,Eigen::Index col_min, Eigen::Index col_max, Functor functor )
-.. doxygenfunction:: hector_math::iteratePolygon( const Polygon<Scalar> &polygon, Eigen::Index rows, Eigen::Index cols, Functor functor )
-.. doxygenfunction:: hector_math::iteratePolygon( const Polygon<Scalar> &polygon, Functor functor )
-
-
-
+.. doxygenfunction:: hector_math::iteratePolygon( const Polygon<T> &polygon, Eigen::Index row_min, Eigen::Index row_max,Eigen::Index col_min, Eigen::Index col_max, Functor functor )
+.. doxygenfunction:: hector_math::iteratePolygon( const Polygon<T> &polygon, Eigen::Index rows, Eigen::Index cols, Functor functor )
+.. doxygenfunction:: hector_math::iteratePolygon( const Polygon<T> &polygon, Functor functor )

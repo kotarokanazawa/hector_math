@@ -119,8 +119,3 @@ API
 .. doxygenenum:: hector_math::quaternion_binning_modes::QuaternionBinningMode
 
 .. doxygenfunction:: hector_math::computeBin
-
-
-
-
-

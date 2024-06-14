@@ -28,18 +28,18 @@ Python
 These methods can also be used from python (note the different naming convention):
 
 .. code:: python
-   
+
       import hector_math.coloring as coloring
-   
+
       # Get a color for a segment
       color = coloring.segment_color( 3 )
-   
+
       # Get a color for a value in a range
       color = coloring.gradient_color( 0.5, 0, 1, coloring.GradientMethod.Turbo )
-   
+
       # Get a color for a value in a range with default min and max
       color = coloring.gradient_color( 0.5, coloring.GradientMethod.Civides )
-   
+
       # Get a color for a value in a range with default min and max and default method
       color = coloring.gradient_color( 0.5 )
 

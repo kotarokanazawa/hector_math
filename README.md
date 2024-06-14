@@ -77,7 +77,7 @@ Alternatively, you can follow the steps below to build it yourself.
 * sphinx_rtd_theme
 * Breathe
 
-**Example for Ubuntu**  
+**Example for Ubuntu**
 Install dependencies
 
 ```bash
