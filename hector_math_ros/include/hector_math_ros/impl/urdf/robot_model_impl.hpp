@@ -4,8 +4,8 @@
 #ifndef HECTOR_MATH_URDF_ROBOT_MODEL_IMPL_HPP
 #define HECTOR_MATH_URDF_ROBOT_MODEL_IMPL_HPP
 
-#include "hector_math_ros/urdf/conversions.h"
-#include "hector_math_ros/urdf/robot_model.h"
+#include "hector_math_ros/urdf/conversions.hpp"
+#include "hector_math_ros/urdf/robot_model.hpp"
 #include <hector_math/shapes/bounding_box.h>
 
 namespace hector_math
@@ -31,8 +31,9 @@ UrdfRobotModel<Scalar>::Joint::getTransform( const std::vector<Scalar> &joint_po
   case urdf::Joint::FLOATING:
   case urdf::Joint::UNKNOWN:
   case urdf::Joint::PLANAR:
-    ROS_WARN_ONCE( "Unsupported joint type in transform for joint. This message "
-                   "is only displayed once." );
+    throw std::runtime_error(
+        "Unsupported joint type in transform for joint. "
+        "Only continuous, revolute and prismatic joints are supported at the moment." );
   }
   return child_transform;
 }

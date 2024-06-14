@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
-<package format="2">
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
   <name>hector_math_ros</name>
   <version>0.0.0</version>
   <description>The hector_math_ros package</description>
@@ -10,9 +11,14 @@
 
   <author email="fabian@sim.tu-darmstadt.de">Stefan Fabian</author>
 
-  <buildtool_depend>catkin</buildtool_depend>
+  <buildtool_depend>ament_cmake</buildtool_depend>
+  <build_depend>ament_index_cpp</build_depend>
   <build_depend>hector_math</build_depend>
+  <build_depend>rclcpp</build_depend>
+  <build_depend>sensor_msgs</build_depend>
   <build_depend>urdf</build_depend>
   <build_export_depend>hector_math</build_export_depend>
+  <build_export_depend>rclcpp</build_export_depend>
+  <build_export_depend>sensor_msgs</build_export_depend>
   <build_export_depend>urdf</build_export_depend>
 </package>

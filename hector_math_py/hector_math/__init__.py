@@ -1,1 +1,2 @@
-from hector_math_py.module import *
+#!/usr/bin/env python3
+from hector_math_py.impl import *

@@ -35,7 +35,7 @@ inline RGB RGBf::toRGB() const
            static_cast<unsigned char>( b * 255 ) };
 }
 
-enum class GradientMethod {
+enum class GradientMethod : int {
   Grayscale,
   Blue2Red,
   Red2Blue,
@@ -44,6 +44,8 @@ enum class GradientMethod {
   // A color vision deficiency optimized version of Virides, see https://doi.org/10.1371/journal.pone.0199239
   Civides
 };
+
+static constexpr GradientMethod DEFAULT_GRADIENT_METHOD = GradientMethod::Turbo;
 
 namespace _impl
 {

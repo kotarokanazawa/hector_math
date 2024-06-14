@@ -1,23 +1,23 @@
 // Copyright (c) 2021 Stefan Fabian. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-#include "hector_math_ros/urdf/robot_model.h"
+#include "hector_math_ros/urdf/robot_model.hpp"
+#include <ament_index_cpp/get_package_share_directory.hpp>
 #include <benchmark/benchmark.h>
 #include <fstream>
-#include <ros/package.h>
 
 using namespace hector_math;
 
-urdf::Model loadUrdf()
+urdf::ModelSharedPtr loadUrdf()
 {
-  std::string package_path = ros::package::getPath( ROS_PACKAGE_NAME );
+  std::string package_path = ament_index_cpp::get_package_share_directory( "hector_math_ros" );
   // Inefficient, doesn't matter here but don't copy this approach
   std::ifstream urdf_stream( package_path + "/benchmark/pr2.urdf" );
   std::string urdf( ( std::istreambuf_iterator<char>( urdf_stream ) ),
                     std::istreambuf_iterator<char>() );
 
-  urdf::Model model;
-  if ( !model.initString( urdf ) ) {
+  urdf::ModelSharedPtr model = std::make_shared<urdf::Model>();
+  if ( !model->initString( urdf ) ) {
     throw std::runtime_error( "Failed to load urdf description!" );
   }
   return model;
@@ -26,10 +26,10 @@ urdf::Model loadUrdf()
 template<typename Scalar>
 static void centerOfMass( benchmark::State &state )
 {
-  urdf::Model model = loadUrdf();
+  urdf::ModelSharedPtr model = loadUrdf();
   std::vector<std::string> joint_names;
   std::vector<Scalar> joint_values;
-  for ( const auto &joint : model.joints_ ) {
+  for ( const auto &joint : model->joints_ ) {
     joint_names.push_back( joint.first );
     joint_values.push_back( 0 );
   }
@@ -46,10 +46,10 @@ static void centerOfMass( benchmark::State &state )
 template<typename Scalar>
 static void boundingBox( benchmark::State &state )
 {
-  urdf::Model model = loadUrdf();
+  urdf::ModelSharedPtr model = loadUrdf();
   std::vector<std::string> joint_names;
   std::vector<Scalar> joint_values;
-  for ( const auto &joint : model.joints_ ) {
+  for ( const auto &joint : model->joints_ ) {
     joint_names.push_back( joint.first );
     joint_values.push_back( 0 );
   }

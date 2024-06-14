@@ -13,9 +13,9 @@ static void quaternionCacheInsert( benchmark::State &state )
   QuaternionCache<Scalar, int, mode> cache;
   std::vector<Eigen::Quaternion<Scalar>, Eigen::aligned_allocator<Eigen::Quaternion<Scalar>>> quaternions;
   quaternions.resize( state.max_iterations );
-  for ( size_t i = 0; i < state.max_iterations; ++i )
+  for ( benchmark::IterationCount i = 0; i < state.max_iterations; ++i )
     quaternions[i] = Eigen::Quaternion<Scalar>::UnitRandom();
-  size_t i = 0;
+  int i = 0;
   for ( auto _ : state ) { cache.insert( quaternions[i], i ); }
 }
 
@@ -25,11 +25,11 @@ static void quaternionCacheFind( benchmark::State &state )
   QuaternionCache<Scalar, int, mode> cache;
   std::vector<Eigen::Quaternion<Scalar>, Eigen::aligned_allocator<Eigen::Quaternion<Scalar>>> quaternions;
   quaternions.resize( state.max_iterations );
-  for ( size_t i = 0; i < state.max_iterations; ++i ) {
+  for ( benchmark::IterationCount i = 0; i < state.max_iterations; ++i ) {
     quaternions[i] = Eigen::Quaternion<Scalar>::UnitRandom();
     cache.insert( quaternions[i], i );
   }
-  size_t i = 0;
+  int i = 0;
   for ( auto _ : state ) {
     if ( cache.find( quaternions[i] )->second != i )
       throw std::runtime_error( "Unexpected" );

@@ -7,9 +7,8 @@
 #include "hector_math/robot/robot_model.h"
 
 #include <mutex>
-#include <ros/node_handle.h>
-#include <ros/subscriber.h>
-#include <sensor_msgs/JointState.h>
+#include <rclcpp/node.hpp>
+#include <sensor_msgs/msg/joint_state.hpp>
 
 namespace hector_math
 {
@@ -22,22 +21,18 @@ template<typename Scalar>
 class JointStateSubscriber
 {
 public:
-  explicit JointStateSubscriber( typename RobotModel<Scalar>::Ptr model,
-                                 const std::string &topic = "/joint_states" )
-      : JointStateSubscriber( model, {}, topic )
-  {
-  }
-
-  explicit JointStateSubscriber( typename RobotModel<Scalar>::Ptr model, const ros::NodeHandle &nh,
-                                 const std::string &topic = "/joint_states" )
-      : model_( std::move( model ) ), nh_( nh )
+  explicit JointStateSubscriber( rclcpp::Node &node, typename RobotModel<Scalar>::Ptr model,
+                                 const std::string &topic = "/joint_states",
+                                 rclcpp::QoS qos = rclcpp::QoS( 10 ) )
+      : model_( std::move( model ) ), clock_( node.get_clock() )
   {
     const std::vector<std::string> &joint_names = model_->jointNames();
     for ( size_t i = 0; i < joint_names.size(); ++i ) { indexes_.insert( { joint_names[i], i } ); }
     positions_ = model_->jointPositions();
     updated_.resize( positions_.size() );
     updated_.assign( positions_.size(), false );
-    sub_ = nh_.subscribe( topic, 10, &JointStateSubscriber<Scalar>::onJointStateMessage, this );
+    sub_ = node.create_subscription<sensor_msgs::msg::JointState>(
+        topic, qos, std::bind( &JointStateSubscriber<Scalar>::onJointStateMessage, this, std::placeholders::_1 ) );
   }
 
   // Moving or copying is not allowed. Would be anyway due to mutex but also doesn't really make sense.
@@ -50,29 +45,24 @@ public:
    * Wait for a full update of all joint positions.
    * Usually, the joint states are broadcast by multiple publishers, hence, this method waits until
    * it received an update for each joint position in the RobotModel.
-   * If ros::Time is not valid, this method will first wait until it is before waiting the specified
+   * If the node clock hasn't started yet, this method will first wait until it is before waiting the specified
    * duration.
    *
-   * @param duration The maximum duration to wait before giving up. Pass 0 to wait indefinitely. Default: 0
+   * @param timeout The maximum duration to wait before giving up. Pass -1 to wait indefinitely. Default: -1
    * @param spin If true spin the ros main CallbackQueue while waiting to process messages, if you have
    *   your own spinner, pass false.
    * @return True if a full update was received, false if not.
    */
-  bool waitForFullState( const ros::Duration &duration = ros::Duration( 0 ), bool spin = true )
+  bool waitForFullState( const std::chrono::milliseconds &timeout = -1 )
   {
+    using namespace std::chrono_literals;
     if ( positions_.empty() )
       return true;
     waiting_for_set_ = true;
-    if ( !duration.isZero() && !ros::Time::isValid() ) {
-      ROS_INFO_NAMED( "JointStateSubscriber", "Waiting for time to become valid." );
-      ros::Time::waitForValid();
-    }
-    ros::Time start_time = ros::Time::now();
-    while ( duration.isZero() || ( ros::Time::now() - start_time ) < duration ) {
-      if ( spin )
-        ros::spinOnce();
-      else
-        ros::Duration( 0.01 ).sleep();
+    clock_->wait_until_started();
+    rclcpp::Time start_time = clock_->now();
+    while ( timeout.count() < 0 || ( clock_->now() - start_time ) < timeout ) {
+      clock_->sleep_for( 10ms );
       if ( std::all_of( updated_.begin(), updated_.end(), []( bool x ) { return x; } ) ) {
         waiting_for_set_ = false;
         updateJointPositions();
@@ -99,7 +89,7 @@ public:
   }
 
 private:
-  void onJointStateMessage( const sensor_msgs::JointState::ConstPtr &msg )
+  void onJointStateMessage( const sensor_msgs::msg::JointState::ConstSharedPtr &msg )
   {
     {
       std::lock_guard<std::mutex> lock( update_mutex_ );
@@ -124,8 +114,8 @@ private:
   }
 
   typename RobotModel<Scalar>::Ptr model_;
-  ros::NodeHandle nh_;
-  ros::Subscriber sub_;
+  rclcpp::Clock::SharedPtr clock_;
+  rclcpp::SubscriptionBase::SharedPtr sub_;
   std::unordered_map<std::string, size_t> indexes_;
   std::vector<Scalar> positions_;
   typedef std::vector<bool> BoolBitset;

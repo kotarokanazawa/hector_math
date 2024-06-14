@@ -35,11 +35,15 @@ TYPED_TEST( BoundedVectorTest, tests )
   // delete first item -> all other items must be moved -> 1,2,..maxSize-2
   vector.erase( vector.begin() );
   EXPECT_TRUE( vector.size() == maxSize - 2 );
-  for ( size_t i = 0; i < maxSize - 2; i++ ) { EXPECT_TRUE( vector[i] == i + 1 ); }
+  for ( size_t i = 0; i < maxSize - 2; i++ ) {
+    EXPECT_TRUE( vector[i] == static_cast<Scalar>( i + 1 ) );
+  }
   // delete first 3 items -> all other items must be moved -> 4,5,..maxSize-5
   vector.erase( vector.begin(), vector.begin() + 3 ); // removes all elements in [first,last)
   EXPECT_TRUE( vector.size() == maxSize - 2 - 3 );
-  for ( size_t i = 0; i < maxSize - 6; i++ ) { EXPECT_TRUE( vector[i] == i + 4 ); }
+  for ( size_t i = 0; i < maxSize - 6; i++ ) {
+    EXPECT_TRUE( vector[i] == static_cast<Scalar>( i + 4 ) );
+  }
   vector.clear();
   EXPECT_TRUE( vector.size() == 0 );
   // construct items 0,1,...,maxSize-1

@@ -1,0 +1,9 @@
+find_package(GTest REQUIRED)
+include(CTest)
+include(GoogleTest)
+
+find_package(ament_index_cpp REQUIRED)
+
+add_executable(test_joint_state_subscriber test_joint_state_subscriber.cpp)
+target_link_libraries(test_joint_state_subscriber GTest::gtest_main hector_math_ros ament_index_cpp::ament_index_cpp)
+gtest_discover_tests(test_joint_state_subscriber)
