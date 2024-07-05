@@ -248,7 +248,7 @@ inline RGB segmentColor( int index )
 inline RGB gradientColor( float value, float min = 0, float max = 1,
                           GradientMethod method = GradientMethod::Turbo )
 {
-  float scaled_value = ( value - min ) / ( max - min );
+  float scaled_value = max == min ? 1 : ( value - min ) / ( max - min );
   scaled_value = std::min<float>( scaled_value, 1 );
   scaled_value = std::max<float>( scaled_value, 0 );
   switch ( method ) {
