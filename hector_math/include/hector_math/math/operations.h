@@ -42,6 +42,27 @@ constexpr T ensureFinite( const T &value, const T &finite_value )
   return std::isfinite( value ) ? value : finite_value;
 }
 
+//! Rounds the given value to the nearest multiple of the increment.
+template<typename T>
+constexpr T makeMultipleRound( const T &value, const T &increment )
+{
+  return increment * static_cast<T>( std::round( value / static_cast<double>( increment ) ) );
+}
+
+//! Returns the smallest multiple of the increment that is larger or equal to the given value.
+template<typename T>
+constexpr T makeMultipleCeil( const T &value, const T &increment )
+{
+  return increment * static_cast<T>( std::ceil( value / static_cast<double>( increment ) ) );
+}
+
+//! Returns the largest multiple of the increment that is smaller or equal to the given value.
+template<typename T>
+constexpr T makeMultipleFloor( const T &value, const T &increment )
+{
+  return increment * static_cast<T>( std::floor( value / static_cast<double>( increment ) ) );
+}
+
 } // namespace hector_math
 
 #endif // HECTOR_MATH_OPERATIONS_H
