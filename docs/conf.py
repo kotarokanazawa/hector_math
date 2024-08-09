@@ -29,7 +29,7 @@ copyright = "2019-2024, Stefan Fabian"
 author = "Stefan Fabian"
 
 # The short X.Y version
-version = ""
+version = "1.0"
 # The full version, including alpha/beta/rc tags
 release = "1.0.0"
 
@@ -97,88 +97,6 @@ html_static_path = ["_static"]
 # html_sidebars = {}
 
 
-# -- Options for HTMLHelp output ---------------------------------------------
-
-# Output file base name for HTML help builder.
-htmlhelp_basename = "hector_mathdoc"
-
-# -- Options for LaTeX output ------------------------------------------------
-
-latex_elements = {
-    # The paper size ('letterpaper' or 'a4paper').
-    #
-    # 'papersize': 'letterpaper',
-    # The font size ('10pt', '11pt' or '12pt').
-    #
-    # 'pointsize': '10pt',
-    # Additional stuff for the LaTeX preamble.
-    #
-    # 'preamble': '',
-    # Latex figure (float) alignment
-    #
-    # 'figure_align': 'htbp',
-}
-
-# Grouping the document tree into LaTeX files. List of tuples
-# (source start file, target name, title,
-#  author, documentclass [howto, manual, or own class]).
-latex_documents = [
-    (
-        master_doc,
-        "hector_math.tex",
-        "hector_math Documentation",
-        "Stefan Fabian",
-        "manual",
-    ),
-]
-
-# -- Options for manual page output ------------------------------------------
-
-# One entry per manual page. List of tuples
-# (source start file, name, description, authors, manual section).
-man_pages = [(master_doc, "helloworld", "hector_math Documentation", [author], 1)]
-
-# -- Options for Texinfo output ----------------------------------------------
-
-# Grouping the document tree into Texinfo files. List of tuples
-# (source start file, target name, title, author,
-#  dir menu entry, description, category)
-texinfo_documents = [
-    (
-        master_doc,
-        "hector_math",
-        "hector_math Documentation",
-        author,
-        "hector_math",
-        "One line description of project.",
-        "Miscellaneous",
-    ),
-]
-
-# -- Options for Epub output -------------------------------------------------
-
-# Bibliographic Dublin Core info.
-epub_title = project
-
-# The unique identifier of the text. This can be a ISBN number
-# or the project homepage.
-#
-# epub_identifier = ''
-
-# A unique identification for the text.
-#
-# epub_uid = ''
-
-# A list of files that should not be packed into the epub file.
-epub_exclude_files = ["search.html"]
-
-# -- Extension configuration -------------------------------------------------
-
-# add sourcecode to path
-import sys, os
-
-sys.path.insert(0, os.path.abspath("../src"))
-
 ############################
 # SETUP THE RTD LOWER-LEFT #
 ############################
@@ -206,17 +124,20 @@ else:
 html_context["current_language"] = current_language
 
 # SET CURRENT_VERSION
-from git import Repo
-
-repo = Repo(search_parent_directories=True)
-
 if "current_version" in os.environ:
     # get the current_version env var set by buildDocs.sh
-    current_version = os.environ["current_version"]
+    current_version = os.environ["GITHUB_REF_NAME"]
 else:
-    # the user is probably doing `make html`
-    # set this build's current version by looking at the branch
-    current_version = repo.active_branch.name
+    try:
+        from git import Repo
+
+        repo = Repo(search_parent_directories=True)
+
+        # the user is probably doing `make html`
+        # set this build's current version by looking at the branch
+        current_version = repo.active_branch.name
+    except ImportError:
+        current_version = "unknown"
 
 # tell the theme which version we're currently on ('current_version' affects
 # the lower-left rtd menu and 'version' affects the logo-area version)
@@ -301,4 +222,4 @@ html_context["downloads"].append(
 html_context["display_github"] = True
 html_context["github_user"] = "tu-darmstadt-ros-pkg"
 html_context["github_repo"] = "hector_math"
-html_context["github_version"] = "master/docs/"
+html_context["github_version"] = f"{current_version}/docs/"
