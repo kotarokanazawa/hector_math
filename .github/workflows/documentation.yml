@@ -1,10 +1,10 @@
-name: Documentation Build
+name: Documentation
 on:
   push:
     branches: [ noetic, jazzy ]
 
 jobs:
-  documentation:
+  build:
     runs-on: debian-latest
     container: debian:buster-slim
     steps:
@@ -23,6 +23,22 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          cd .github
-          ./build_docs_on_github.sh
+          cd docs && make html
         shell: bash
+      - uses: actions/upload-pages-artifact@v1
+        with:
+          name: github-pages
+          path: docs/_build/html
+  deploy:
+    needs: build
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
