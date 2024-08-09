@@ -1,7 +1,9 @@
 name: Documentation
 on:
   push:
-    branches: [ noetic, jazzy ]
+    branches: [ jazzy ]
+  pull_request:
+    branches: [ jazzy ]
 
 jobs:
   build:
