@@ -32,7 +32,8 @@ public:
     updated_.resize( positions_.size() );
     updated_.assign( positions_.size(), false );
     sub_ = node.create_subscription<sensor_msgs::msg::JointState>(
-        topic, qos, std::bind( &JointStateSubscriber<Scalar>::onJointStateMessage, this, std::placeholders::_1 ) );
+        topic, qos,
+        std::bind( &JointStateSubscriber<Scalar>::onJointStateMessage, this, std::placeholders::_1 ) );
   }
 
   // Moving or copying is not allowed. Would be anyway due to mutex but also doesn't really make sense.

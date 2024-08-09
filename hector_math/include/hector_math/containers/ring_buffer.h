@@ -192,8 +192,10 @@ public:
     return *this;
   }
 
+  // clang-format off
   // NOLINTNEXTLINE(cert-dcl21-cpp) lvalue ref-qualify to prevent (it++)++ mistakes without const.
   ring_iterator<Iterator> operator++( int ) & noexcept
+  // clang-format on
   {
     auto tmp = *this;
     ++( *this );
@@ -214,7 +216,9 @@ public:
     return *this;
   }
 
+  // clang-format off
   ring_iterator<Iterator> operator--( int ) & noexcept // NOLINT(cert-dcl21-cpp)
+  // clang-format on
   {
     auto tmp = *this;
     --( *this );

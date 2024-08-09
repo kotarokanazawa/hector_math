@@ -1,8 +1,8 @@
 // Copyright (c) 2023 Stefan Fabian. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-#include <gtest/gtest.h>
 #include <ament_index_cpp/get_package_share_directory.hpp>
+#include <gtest/gtest.h>
 #include <rclcpp/rclcpp.hpp>
 
 #include <hector_math_ros/robot/joint_state_subscriber.hpp>
@@ -33,10 +33,11 @@ protected:
 };
 
 //! @param wait_count Max time to wait in increments of 33 ms
-bool waitFor( const rclcpp::Node::SharedPtr &node, const std::function<bool()> &pred, std::chrono::milliseconds timeout = std::chrono::milliseconds( 200 ) )
+bool waitFor( const rclcpp::Node::SharedPtr &node, const std::function<bool()> &pred,
+              std::chrono::milliseconds timeout = std::chrono::milliseconds( 200 ) )
 {
   rclcpp::Time start = node->get_clock()->now();
-  while ( (node->get_clock()->now() - start) < timeout && rclcpp::ok() ) {
+  while ( ( node->get_clock()->now() - start ) < timeout && rclcpp::ok() ) {
     if ( pred() )
       return true;
     usleep( 33 * 1000 );
@@ -59,11 +60,11 @@ bool waitFor( const rclcpp::Node::SharedPtr &node, const std::function<bool()> &
 TEST( JointStateSubscriber, tests )
 {
   rclcpp::Node::SharedPtr node = std::make_shared<rclcpp::Node>( "test_joint_state_subscriber" );
-  rclcpp::executors::MultiThreadedExecutor executor({}, 2);
+  rclcpp::executors::MultiThreadedExecutor executor( {}, 2 );
   executor.add_node( node );
   std::promise<void> spin_promise;
   std::future<void> spin_future = spin_promise.get_future();
-  std::thread spin_thread( [&]() { executor.spin_until_future_complete(spin_future); } );
+  std::thread spin_thread( [&]() { executor.spin_until_future_complete( spin_future ); } );
   rclcpp::Publisher<sensor_msgs::msg::JointState>::SharedPtr pub =
       node->create_publisher<sensor_msgs::msg::JointState>( "/test_joint_states", 1 );
   auto model = std::make_shared<MockRobotModel>();
