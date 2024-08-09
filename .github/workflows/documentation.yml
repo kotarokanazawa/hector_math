@@ -9,10 +9,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Prerequisites
+      - name: Setup
         run: |
-          apt-get update
-          apt-get install -y git doxygen graphviz
+          apt-get update && apt-get install -y git doxygen graphviz python3-sphinx python3-breathe python3-sphinx-rtd-theme
       - name:  Checkout Code
         uses:  actions/checkout@v4
         with:
