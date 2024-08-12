@@ -42,3 +42,9 @@ jobs:
       - uses: ros-tooling/action-ros-ci@v0.3
         with:
           target-ros2-distro: ${{ matrix.ros_distro }}
+          colcon-defaults: | # Use asan to find memory issues
+            {
+              "build": {
+                "mixin": ["asan-gcc"]
+              }
+            }
