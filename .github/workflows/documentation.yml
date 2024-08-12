@@ -1,9 +1,9 @@
 name: Documentation
 on:
   push:
-    branches: [ $default-branch ]
+    branches: [ jazzy ]
   pull_request:
-    branches: [ $default-branch ]
+    branches: [ jazzy ]
 
 jobs:
   build:
@@ -44,5 +44,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Deploy to GitHub Pages
+        if: github.event_name != 'pull_request'
         id: deployment
         uses: actions/deploy-pages@v4
