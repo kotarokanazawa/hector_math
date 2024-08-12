@@ -22,13 +22,14 @@ jobs:
         with:
           required-ros-distributions: jazzy
       - uses: ros-tooling/action-ros-ci@v0.3
+        id: action_ros_ci_step
         with:
           package-name: hector_math hector_math_py
           target-ros2-distro: jazzy
           skip-tests: true
       - name: Build documentation
         run: |
-          . ../../install/setup.sh && cd docs && make html
+          . ${{ steps.action_ros_ci_step.outputs.ros-workspace-directory-name }}/install/setup.sh && cd docs && make html
       - uses: actions/upload-pages-artifact@v3
         with:
           name: github-pages
