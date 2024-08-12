@@ -30,6 +30,10 @@ jobs:
   build-and-test:
     needs: Linting
     runs-on: ubuntu-latest
+    # Disable asan new-delete-type-mismatch to workaround rcutils issue
+    # https://github.com/ros2/rclcpp/issues/2220
+    env:
+      ASAN_OPTIONS: new_delete_type_mismatch=0
     strategy:
       matrix:
         ros_distro: [humble, jazzy]
