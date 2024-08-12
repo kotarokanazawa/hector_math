@@ -1,13 +1,15 @@
 name: Documentation
 on:
   push:
-    branches: [ jazzy ]
+    branches: [ $default-branch ]
   pull_request:
-    branches: [ jazzy ]
+    branches: [ $default-branch ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    container:
+      image: ros:jazzy-ros-base
     steps:
       - name:  Checkout Code
         uses:  actions/checkout@v4
@@ -16,10 +18,18 @@ jobs:
       - name: Setup
         run: |
           sudo apt-get update && sudo apt-get install -y git doxygen graphviz python3-sphinx python3-breathe python3-sphinx-rtd-theme
+      - uses: ros-tooling/setup-ros@v0.7
+        with:
+          required-ros-distributions: jazzy
+      - uses: ros-tooling/action-ros-ci@v0.3
+        with:
+          package-name: hector_math hector_math_py
+          target-ros2-distro: jazzy
+          skip-tests: true
       - name: Build documentation
         run: |
-          cd docs && make html
-      - uses: actions/upload-pages-artifact@v1
+          . ../../install/setup.sh && cd docs && make html
+      - uses: actions/upload-pages-artifact@v4
         with:
           name: github-pages
           path: docs/_build/html
