@@ -29,7 +29,7 @@ jobs:
       - name: Build documentation
         run: |
           . ../../install/setup.sh && cd docs && make html
-      - uses: actions/upload-pages-artifact@v4
+      - uses: actions/upload-pages-artifact@v3
         with:
           name: github-pages
           path: docs/_build/html
