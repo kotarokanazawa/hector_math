@@ -19,7 +19,7 @@ namespace hector_math
  * @tparam Functor A function or lambda method with the signature: void(Eigen::Index x, Eigen::Index y).
  * @param center The center of the circle that is iterated over.
  * @param radius The radius of the circle that is iterated over.
- * @param functor The function that will be called for each index (x, y) inside the polygon.
+ * @param functor The function that will be called for each index (x, y) inside the circle.
  */
 template<typename T, typename Functor>
 void iterateCircle( const Vector2<T> &center, double radius, Eigen::Index row_min,
