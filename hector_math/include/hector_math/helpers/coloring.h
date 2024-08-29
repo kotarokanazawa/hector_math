@@ -12,11 +12,31 @@ namespace hector_math
 namespace coloring
 {
 struct RGB;
+struct RGBA;
+
+struct RGBAf {
+  float r, g, b, a;
+  constexpr RGBAf( float r, float g, float b, float a = 1.0f ) : r( r ), g( g ), b( b ), a( a ) { }
+
+  RGBA toRGBA() const;
+};
+
 struct RGBf {
   float r, g, b;
-  RGBf( float r, float g, float b ) : r( r ), g( g ), b( b ) { }
+  constexpr RGBf( float r, float g, float b ) : r( r ), g( g ), b( b ) { }
 
   RGB toRGB() const;
+  RGBAf toRGBAf() const { return { r, g, b, 1.0f }; }
+};
+
+struct RGBA {
+  unsigned char r, g, b, a;
+  constexpr RGBA( unsigned char r, unsigned char g, unsigned char b, unsigned char a = 255 )
+      : r( r ), g( g ), b( b ), a( a )
+  {
+  }
+
+  RGBAf toRGBAf() const { return { r / 255.f, g / 255.f, b / 255.f, a / 255.f }; }
 };
 
 struct RGB {
@@ -27,12 +47,19 @@ struct RGB {
   }
 
   RGBf toRGBf() const { return { r / 255.f, g / 255.f, b / 255.f }; }
+  RGBA toRGBA() const { return { r, g, b, 255 }; }
 };
 
 inline RGB RGBf::toRGB() const
 {
   return { static_cast<unsigned char>( r * 255 ), static_cast<unsigned char>( g * 255 ),
            static_cast<unsigned char>( b * 255 ) };
+}
+
+inline RGBA RGBAf::toRGBA() const
+{
+  return { static_cast<unsigned char>( r * 255 ), static_cast<unsigned char>( g * 255 ),
+           static_cast<unsigned char>( b * 255 ), static_cast<unsigned char>( a * 255 ) };
 }
 
 enum class GradientMethod : int {
