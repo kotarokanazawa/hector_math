@@ -124,7 +124,7 @@ else:
 html_context["current_language"] = current_language
 
 # SET CURRENT_VERSION
-if "current_version" in os.environ:
+if "GITHUB_REF_NAME" in os.environ:
     # get the current_version env var set by buildDocs.sh
     current_version = os.environ["GITHUB_REF_NAME"]
 else:
