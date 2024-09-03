@@ -17,7 +17,7 @@ jobs:
           fetch-depth: 0
       - name: Setup
         run: |
-          sudo apt-get update && sudo apt-get install -y git doxygen graphviz python3-sphinx python3-breathe python3-sphinx-rtd-theme
+          sudo apt-get update && sudo apt-get install -y git doxygen graphviz python3-sphinx python3-breathe python3-sphinx-rtd-theme python3-git
       - uses: ros-tooling/setup-ros@v0.7
         with:
           required-ros-distributions: jazzy
