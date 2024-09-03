@@ -1,29 +1,50 @@
-name: Documentation Build
+name: Documentation
 on:
   push:
-    branches: [ master ]
+    branches: [ jazzy ]
+  pull_request:
+    branches: [ jazzy ]
 
 jobs:
-  documentation:
+  build:
     runs-on: ubuntu-latest
-    container: debian:buster-slim
+    container:
+      image: ros:jazzy-ros-base
     steps:
-      - name: Prerequisites
-        run: |
-          apt-get update
-          apt-get install -y git doxygen graphviz
-        shell: bash
-
       - name:  Checkout Code
-        uses:  actions/checkout@v3
+        uses:  actions/checkout@v4
         with:
           fetch-depth: 0
-          # ref: master # make sure to use documentation script from master branch
-
-      - name: Execute script to build our documentation and update pages
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Setup
         run: |
-          cd .github
-          ./build_docs_on_github.sh
-        shell: bash
+          sudo apt-get update && sudo apt-get install -y git doxygen graphviz python3-sphinx python3-breathe python3-sphinx-rtd-theme python3-git
+      - uses: ros-tooling/setup-ros@v0.7
+        with:
+          required-ros-distributions: jazzy
+      - uses: ros-tooling/action-ros-ci@v0.3
+        id: action_ros_ci_step
+        with:
+          package-name: hector_math hector_math_py
+          target-ros2-distro: jazzy
+          skip-tests: true
+      - name: Build documentation
+        run: |
+          . ${{ steps.action_ros_ci_step.outputs.ros-workspace-directory-name }}/install/setup.sh && cd docs && make html
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          name: github-pages
+          path: docs/_build/html
+  deploy:
+    if: github.event_name != 'pull_request'
+    needs: build
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

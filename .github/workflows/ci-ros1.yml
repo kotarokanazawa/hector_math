@@ -1,9 +1,9 @@
 name: Build & Test
 on:
   push:
-    branches: [ master ]
+    branches: [ noetic ]
   pull_request:
-    branches: [ master ]
+    branches: [ noetic ]
 
 jobs:
   Linting:
@@ -34,7 +34,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y python3-catkin-tools python3-empy
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           path: hector/src
       - name: rosdep
