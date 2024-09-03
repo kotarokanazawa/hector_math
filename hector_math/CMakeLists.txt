@@ -52,7 +52,7 @@ if (${benchmark_FOUND})
   # Iterator benchmark
   add_executable(benchmark_iterators benchmark/iterators.cpp)
   # Disabled until grid_map_core fixes their pollution of the definitions
-  find_package(grid_map_core QUIET)
+  #find_package(grid_map_core QUIET)
   if (${grid_map_core_FOUND})
     target_compile_definitions(benchmark_iterators PRIVATE BENCHMARK_ENABLE_GRIDMAP)
     target_link_libraries(benchmark_iterators PRIVATE grid_map_core::grid_map_core)
