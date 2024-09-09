@@ -15,13 +15,18 @@ struct PlaneEstimationResult {
   float center_plane_z;
   float gradient_x;
   float gradient_y;
-  //! The quality of the estimation in x and y direction from 0 (no data) to 1 (good data).
+  //! The quality of the estimation in x and y direction from 0 (no data) to 1 (complete data).
   float quality_x;
   float quality_y;
 };
 
+/*!
+ * @brief Fits a plane to the given map.
+ * @param map The 2D array of height values this plane is fitted to.
+ * @param resolution The resolution of the map. Used to scale the gradient.
+ */
 template<typename Derived>
-PlaneEstimationResult fitPlane( const Eigen::DenseBase<Derived> &map )
+PlaneEstimationResult fitPlane( const Eigen::DenseBase<Derived> &map, const double resolution = 1.0 )
 {
   MeanAggregator<double> mean_x, mean_y, mean_z;
   MeanAggregator<double> central_row, central_col;
@@ -62,8 +67,8 @@ PlaneEstimationResult fitPlane( const Eigen::DenseBase<Derived> &map )
     }
   }
   PlaneEstimationResult result;
-  result.gradient_x = static_cast<float>( mean_x.mean() );
-  result.gradient_y = static_cast<float>( mean_y.mean() );
+  result.gradient_x = static_cast<float>( mean_x.mean() / resolution );
+  result.gradient_y = static_cast<float>( mean_y.mean() / resolution );
   result.center_plane_z = mean_z.mean() -
                           ( central_row.mean() - ( map.rows() - 1 ) / 2.0 ) * result.gradient_x -
                           ( central_col.mean() - ( map.cols() - 1 ) / 2.0 ) * result.gradient_y;
