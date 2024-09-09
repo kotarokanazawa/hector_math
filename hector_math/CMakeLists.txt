@@ -58,8 +58,12 @@ if (${benchmark_FOUND})
     target_link_libraries(benchmark_iterators PRIVATE grid_map_core::grid_map_core)
   endif()
   target_link_libraries(benchmark_iterators PRIVATE hector_math benchmark benchmark_main pthread)
+
+  install(TARGETS benchmark_caches quaternion_binning_modes show_iterators benchmark_iterators
+    RUNTIME DESTINATION lib/${PROJECT_NAME}
+  )
 else()
-  message(WARN benchmark library not found. Not building benchmarks.)
+  message(WARNING "benchmark library not found. Not building benchmarks.")
 endif()
 
 #############
